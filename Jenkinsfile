@@ -6,8 +6,8 @@ pipeline {
       steps {
         script {
           sh '''
-            
-            terraform destroy -auto-approve
+            terraform init
+            terraform apply -auto-approve
           '''
         }
       }
@@ -24,4 +24,15 @@ pipeline {
       }
     }
   }
+
+ post {
+       
+        failure {
+
+            echo 'Deleting Terraform Stack due to the Failure'
+                sh 'terraform destroy --auto-approve'
+        }
+    }
+
+
 }
